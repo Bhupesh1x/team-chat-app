@@ -1,11 +1,9 @@
 import { redirect } from "next/navigation";
 
-import { UserButton } from "@clerk/nextjs";
-
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";
 
-import { ToggleMode } from "@/components/ToggleMode";
+import InitialModal from "@/components/modals/InitialModal";
 
 export default async function Home() {
   const profile = await initialProfile();
@@ -22,9 +20,5 @@ export default async function Home() {
 
   if (server) return redirect(`/servers/${server.id}`);
 
-  return (
-    <div>
-      <h1>Create a server</h1>
-    </div>
-  );
+  return <InitialModal />;
 }
