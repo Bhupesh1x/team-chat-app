@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
+import { useModal } from "@/hooks/useModalStore";
 
 type Props = {
   server: ServerWithMembersAndProfiles;
@@ -26,8 +27,11 @@ type Props = {
 };
 
 function ServerHeader({ server, role }: Props) {
+  const { onOpen } = useModal();
+
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="focus:outline-none">
@@ -36,7 +40,10 @@ function ServerHeader({ server, role }: Props) {
           <ChevronDown className="h-5 w-5" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
+      <DropdownMenuContent
+        className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
+        onClick={() => onOpen("invite", { server })}
+      >
         {isModerator && (
           <DropdownMenuItem className="w-full px-3 py-2 text-indigo-600 dark:text-indigo-400 text-sm cursor-pointer">
             Invite People
