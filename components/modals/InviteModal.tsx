@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 import { useOrigin } from "@/hooks/useOrigin";
 import { useModal } from "@/hooks/useModalStore";
@@ -15,7 +16,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 
 function CreateServerModal() {
   const [isCopied, setIsCopied] = useState(false);
@@ -73,6 +73,7 @@ function CreateServerModal() {
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
               value={inviteUrl}
               disabled={isLoading}
+              readOnly
             />
             <Button disabled={isLoading} size="icon" onClick={onCopy}>
               {isCopied ? (
