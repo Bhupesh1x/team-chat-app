@@ -40,19 +40,22 @@ function ServerHeader({ server, role }: Props) {
           <ChevronDown className="h-5 w-5" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]"
-        onClick={() => onOpen("invite", { server })}
-      >
+      <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
-          <DropdownMenuItem className="w-full px-3 py-2 text-indigo-600 dark:text-indigo-400 text-sm cursor-pointer">
+          <DropdownMenuItem
+            onClick={() => onOpen("invite", { server })}
+            className="w-full px-3 py-2 text-indigo-600 dark:text-indigo-400 text-sm cursor-pointer"
+          >
             Invite People
             <UserPlus className="h-5 w-5 ml-auto" />
           </DropdownMenuItem>
         )}
         {isAdmin && (
           <>
-            <DropdownMenuItem className="w-full px-3 py-2 text-sm cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => onOpen("editServer", { server })}
+              className="w-full px-3 py-2 text-sm cursor-pointer"
+            >
               Server Settings
               <Settings className="h-5 w-5 ml-auto" />
             </DropdownMenuItem>

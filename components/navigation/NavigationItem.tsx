@@ -31,7 +31,7 @@ function NavigationItem({ name, imageUrl, id }: Props) {
         <div
           className={`relative group flex mx-3 h-[48px] w-[48px] group-hover:rounded-[16px] rounded-[24px] transition-all overflow-hidden ${
             params?.serverId === id &&
-            "bg-primary/10 text-primary rounded-[16px]"
+            "bg-primary/10 text-primary !rounded-[16px]"
           }`}
         >
           <Image fill src={imageUrl} alt="Channel" />
