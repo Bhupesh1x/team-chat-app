@@ -24,8 +24,8 @@ export async function PATCH(
     });
 
     return NextResponse.json(server);
-  } catch (error: any) {
+  } catch (error) {
     console.log("server-id-patch", error);
-    return new NextResponse(error, { status: 500 });
+    return new NextResponse(`${error}`, { status: 500 });
   }
 }
