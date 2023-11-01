@@ -59,7 +59,10 @@ function ServerHeader({ server, role }: Props) {
               Server Settings
               <Settings className="h-5 w-5 ml-auto" />
             </DropdownMenuItem>
-            <DropdownMenuItem className="w-full px-3 py-2 text-sm cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => onOpen("members", { server })}
+              className="w-full px-3 py-2 text-sm cursor-pointer"
+            >
               Members Settings
               <Users className="h-5 w-5 ml-auto" />
             </DropdownMenuItem>

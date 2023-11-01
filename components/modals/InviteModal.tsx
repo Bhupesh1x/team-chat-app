@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-function CreateServerModal() {
+function InviteModal() {
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -91,7 +91,9 @@ function CreateServerModal() {
             onClick={onNew}
           >
             Generate a new link
-            <RefreshCw className="h-4 w-4 ml-2" />
+            <RefreshCw
+              className={`h-4 w-4 ml-2 ${isLoading && "animate-spin"}`}
+            />
           </Button>
         </div>
       </DialogContent>
@@ -99,4 +101,4 @@ function CreateServerModal() {
   );
 }
 
-export default CreateServerModal;
+export default InviteModal;
