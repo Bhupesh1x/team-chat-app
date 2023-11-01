@@ -56,3 +56,52 @@ export async function PATCH(
     return new NextResponse(`${error}`, { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { memberId: string } }
+) {
+  try {
+    const profile = await initialProfile();
+    const { searchParams } = new URL(req.url);
+    const serverId = searchParams.get("serverId");
+
+    if (!profile) return new NextResponse("User Unauthorized", { status: 401 });
+    if (!params.memberId)
+      return new NextResponse("Missing Member Id", { status: 400 });
+    if (!serverId)
+      return new NextResponse("Missing Server Id", { status: 400 });
+
+    const server = await db.server.update({
+      where: {
+        id: serverId,
+        profileId: profile.id,
+      },
+      data: {
+        members: {
+          deleteMany: {
+            id: params.memberId,
+            profileId: {
+              not: profile.id,
+            },
+          },
+        },
+      },
+      include: {
+        members: {
+          include: {
+            profile: true,
+          },
+          orderBy: {
+            role: "asc",
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(server);
+  } catch (error) {
+    console.log("members-id-delete", error);
+    return new NextResponse(`${error}`, { status: 500 });
+  }
+}
