@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z
@@ -151,7 +152,11 @@ function CreateChannelModal() {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isSubmitting}>
-                Create
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin w-4 h-4" />
+                ) : (
+                  "Create"
+                )}
               </Button>
             </DialogFooter>
           </form>

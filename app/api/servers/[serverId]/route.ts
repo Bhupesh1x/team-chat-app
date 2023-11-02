@@ -29,3 +29,27 @@ export async function PATCH(
     return new NextResponse(`${error}`, { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { serverId: string } }
+) {
+  try {
+    const profile = await initialProfile();
+    if (!profile) return new NextResponse("user unauthorized", { status: 401 });
+    if (!params.serverId)
+      return new NextResponse("Missing Server Id", { status: 401 });
+
+    const server = await db.server.delete({
+      where: {
+        id: params.serverId,
+        profileId: profile.id,
+      },
+    });
+
+    return NextResponse.json(server);
+  } catch (error) {
+    console.log("serverid-delete", error);
+    return new NextResponse(`${error}`, { status: 500 });
+  }
+}

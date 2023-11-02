@@ -28,6 +28,7 @@ import { Button } from "../ui/button";
 
 import FileUpload from "../shared/FileUpload";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -126,7 +127,11 @@ function InitialModal() {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isSubmitting}>
-                Create
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin w-4 h-4" />
+                ) : (
+                  "Create"
+                )}
               </Button>
             </DialogFooter>
           </form>
