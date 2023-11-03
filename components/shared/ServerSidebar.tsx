@@ -141,6 +141,42 @@ async function ServerSidebar({ serverId }: Props) {
             ))}
           </div>
         )}
+        {!!audioChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Voice Channels"
+              role={role}
+              channelType={ChannelType.AUDIO}
+              sectionType="channels"
+            />
+            {audioChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                server={server}
+                channel={channel}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
+        {!!videoChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Video Channels"
+              role={role}
+              channelType={ChannelType.VIDEO}
+              sectionType="channels"
+            />
+            {videoChannels.map((channel) => (
+              <ServerChannel
+                key={channel.id}
+                server={server}
+                channel={channel}
+                role={role}
+              />
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );
