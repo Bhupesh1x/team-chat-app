@@ -21,8 +21,14 @@ function ServerMember({ member, server }: Props) {
   const router = useRouter();
 
   const icon = memberRoleMap[member.role];
+
+  const onClick = () => {
+    router.push(`/servers/${server?.id}/conversations/${member?.id}`);
+  };
+
   return (
     <button
+      onClick={onClick}
       className={`group px-2 py-2 rounded flex items-center gap-x-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition my-2 w-full ${
         params?.memberId === member.id && "bg-zinc-700/20 dark:bg-zinc-700"
       }`}
