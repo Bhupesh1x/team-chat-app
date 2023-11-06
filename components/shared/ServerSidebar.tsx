@@ -11,6 +11,7 @@ import { Separator } from "../ui/separator";
 import ServerSection from "./ServerSection";
 import { ScrollArea } from "../ui/scroll-area";
 import ServerChannel from "./ServerChannel";
+import ServerMember from "./ServerMember";
 
 type Props = {
   serverId: string;
@@ -174,6 +175,19 @@ async function ServerSidebar({ serverId }: Props) {
                 channel={channel}
                 role={role}
               />
+            ))}
+          </div>
+        )}
+        {!!members?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Members"
+              role={role}
+              sectionType="members"
+              server={server}
+            />
+            {members.map((member) => (
+              <ServerMember key={member.id} member={member} server={server} />
             ))}
           </div>
         )}
