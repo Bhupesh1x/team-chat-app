@@ -1,34 +1,25 @@
 import { db } from "./db";
 
-export async function getOrCreateConversations(
+export const getOrCreateConversations = async (
   memberOneId: string,
   memberTwoId: string
-) {
-  try {
-    let conversation =
-      (await findConversations(memberOneId, memberTwoId)) ||
-      (await findConversations(memberTwoId, memberOneId));
+) => {
+  let conversation =
+    (await findConversation(memberOneId, memberTwoId)) ||
+    (await findConversation(memberTwoId, memberOneId));
 
-    if (!conversation) {
-      conversation = await createConversations(memberOneId, memberTwoId);
-    }
-
-    return conversation;
-  } catch {
-    return null;
+  if (!conversation) {
+    conversation = await createNewConversation(memberOneId, memberTwoId);
   }
-}
 
-async function findConversations(memberOneId: string, memberTwoId: string) {
+  return conversation;
+};
+
+const findConversation = async (memberOneId: string, memberTwoId: string) => {
   try {
     return await db.conversation.findFirst({
       where: {
-        AND: [
-          {
-            memberOneId,
-            memberTwoId,
-          },
-        ],
+        AND: [{ memberOneId: memberOneId }, { memberTwoId: memberTwoId }],
       },
       include: {
         memberOne: {
@@ -46,9 +37,12 @@ async function findConversations(memberOneId: string, memberTwoId: string) {
   } catch {
     return null;
   }
-}
+};
 
-async function createConversations(memberOneId: string, memberTwoId: string) {
+const createNewConversation = async (
+  memberOneId: string,
+  memberTwoId: string
+) => {
   try {
     return await db.conversation.create({
       data: {
@@ -71,4 +65,4 @@ async function createConversations(memberOneId: string, memberTwoId: string) {
   } catch {
     return null;
   }
-}
+};

@@ -12,8 +12,10 @@ type Props = {
 
 const memberRoleMap = {
   [MemberRole.GUEST]: null,
-  [MemberRole.MODERATOR]: <ShieldCheck className="h-4 w-4 ml-2" />,
-  [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 ml-2" />,
+  [MemberRole.MODERATOR]: (
+    <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />
+  ),
+  [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 ml-2 text-red-500" />,
 };
 
 function ServerMember({ member, server }: Props) {
