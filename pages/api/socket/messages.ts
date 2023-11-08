@@ -37,7 +37,7 @@ export default async function Handler(
 
     if (!server) return res.status(400).json({ message: "Server Not Found" });
 
-    const channel = await db.channel.findUnique({
+    const channel = await db.channel.findFirst({
       where: {
         id: channelId as string,
         serverId: serverId as string,

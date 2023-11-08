@@ -2,10 +2,12 @@
 
 import axios from "axios";
 import * as z from "zod";
+import { useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/useModalStore";
 
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -25,10 +27,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import FileUpload from "../shared/FileUpload";
-import { useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import FileUpload from "@/components/shared/FileUpload";
 
 const formSchema = z.object({
   name: z.string().min(4, {
@@ -70,7 +71,7 @@ function EditServerModel() {
       router.refresh();
       onClose();
     } catch (error) {
-      console.log("initialModel-error", error);
+      console.log(error);
     }
   }
 
@@ -134,7 +135,11 @@ function EditServerModel() {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isSubmitting}>
-                Save
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin w-4 h-4" />
+                ) : (
+                  "Save"
+                )}
               </Button>
             </DialogFooter>
           </form>
