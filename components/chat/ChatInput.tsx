@@ -11,6 +11,8 @@ import { Plus, SendHorizonalIcon, Smile } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import EmojiPicker from "../shared/EmojiPicker";
+import { useRouter } from "next/navigation";
 
 type Props = {
   apiUrl: string;
@@ -25,6 +27,7 @@ const formSchema = z.object({
 
 function ChatInput({ apiUrl, name, query, type }: Props) {
   const { onOpen } = useModal();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,6 +45,8 @@ function ChatInput({ apiUrl, name, query, type }: Props) {
       });
 
       await axios.post(url, value);
+      form.reset();
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +70,11 @@ function ChatInput({ apiUrl, name, query, type }: Props) {
                     <Plus className="text-white dark:text-[#313338]" />
                   </button>
 
-                  <Smile className="absolute dark:text-white text-[#313338] top-7 left-16 cursor-pointer" />
+                  <EmojiPicker
+                    onChange={(emoji: string) =>
+                      field.onChange(`${field.value} ${emoji}`)
+                    }
+                  />
 
                   <Input
                     disabled={isSubmitting}
