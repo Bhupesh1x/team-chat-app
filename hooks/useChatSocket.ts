@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { Member, Message, Profile } from "@prisma/client";
-
 import { useQueryClient } from "@tanstack/react-query";
+import { Member, Message, Profile } from "@prisma/client";
 
 import { useSocket } from "@/components/providers/SocketProvider";
 
@@ -47,6 +46,7 @@ export const useChatSocket = ({
             }),
           };
         });
+
         return {
           ...oldData,
           pages: newData,
@@ -74,7 +74,7 @@ export const useChatSocket = ({
         };
 
         return {
-          oldData,
+          ...oldData,
           pages: newData,
         };
       });
