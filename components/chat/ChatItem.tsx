@@ -5,6 +5,7 @@ import axios from "axios";
 import qs from "query-string";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,6 +75,17 @@ function ChatItem({
   const isPdf = fileType === "pdf" && fileUrl;
   const isImage = fileUrl && !isPdf;
 
+  const params = useParams();
+  const router = useRouter();
+
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return;
+    }
+
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: any) => {
       if (e.key === "Escape" || e.keyCode === 27) {
@@ -120,13 +132,19 @@ function ChatItem({
   return (
     <div className="relative group flex items-center w-full p-4 transition bg-black/5">
       <div className="group flex items-start w-full gap-x-2">
-        <div className="cursor-pointer transition hover:drop-shadow-md">
+        <div
+          onClick={onMemberClick}
+          className="cursor-pointer transition hover:drop-shadow-md"
+        >
           <UserAvatar src={member.profile.imageUrl} />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center gap-x-2">
-              <div className="font-semibold text-sm hover:underline cursor-pointer">
+              <div
+                onClick={onMemberClick}
+                className="font-semibold text-sm hover:underline cursor-pointer"
+              >
                 {member.profile.name}
               </div>
               <ActionTooltip label={member.role}>
