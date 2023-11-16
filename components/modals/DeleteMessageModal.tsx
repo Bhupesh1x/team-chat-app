@@ -5,7 +5,6 @@ import qs from "query-string";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useModal } from "@/hooks/useModalStore";
-import { useRouter } from "next/navigation";
 
 import {
   Dialog,
@@ -17,29 +16,24 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-function DeleteChannelModal() {
+function DeleteMessageModal() {
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onClose, type, data } = useModal();
-  const { server, channel } = data;
-  const router = useRouter();
+  const { apiUrl, query } = data;
 
-  const isModalOpen = isOpen && type === "deleteChannel";
+  const isModalOpen = isOpen && type === "deleteMessage";
 
   const onConfirm = async () => {
     try {
       setIsLoading(true);
 
       const url = qs.stringifyUrl({
-        url: `/api/channels/${channel?.id}`,
-        query: {
-          serverId: server?.id,
-        },
+        url: apiUrl || "",
+        query,
       });
 
       await axios.delete(url);
       onClose();
-      router.refresh();
-      router.push(`/servers/${server?.id}`);
     } catch (error) {
       console.log(error);
     } finally {
@@ -52,15 +46,12 @@ function DeleteChannelModal() {
       <DialogContent className="bg-white text-black p-0">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl font-bold text-center">
-            Delete Channel
+            Delete Message
           </DialogTitle>
           <DialogDescription className="text-zinc-500 text-center">
             Are you sure you want to do this?
             <br />
-            <span className="font-semibold text-indigo-500">
-              #{channel?.name}
-            </span>{" "}
-            will be permanently deleted.
+            This message will be permanently deleted.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-3">
@@ -82,4 +73,4 @@ function DeleteChannelModal() {
   );
 }
 
-export default DeleteChannelModal;
+export default DeleteMessageModal;
