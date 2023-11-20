@@ -6,6 +6,8 @@ import { getOrCreateConversations } from "@/lib/conversation";
 import { currentProfile } from "@/lib/current-profile";
 
 import ChatHeader from "@/components/chat/ChatHeader";
+import ChatMessages from "@/components/chat/ChatMessages";
+import ChatInput from "@/components/chat/ChatInput";
 
 type Props = {
   params: {
@@ -56,6 +58,29 @@ async function MemberIdPage({ params }: Props) {
         name={otherMember.profile.name}
         serverId={params.serverId}
         type="conversation"
+      />
+
+      <ChatMessages
+        apiUrl="/api/direct-messages"
+        member={currentMember}
+        chatId={conversation.id}
+        name={otherMember.profile.name}
+        paramKey="conversationId"
+        paramValue={conversation.id}
+        socketQuery={{
+          conversationId: conversation.id,
+        }}
+        socketUrl="/api/socket/direct-messages"
+        type="conversation"
+      />
+
+      <ChatInput
+        apiUrl="/api/socket/direct-messages"
+        name={otherMember.profile.name}
+        type="conversation"
+        query={{
+          conversationId: conversation.id,
+        }}
       />
     </div>
   );

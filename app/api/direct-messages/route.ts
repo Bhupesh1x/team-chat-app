@@ -1,4 +1,4 @@
-import { Message } from "@prisma/client";
+import { DirectMessage } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
@@ -9,23 +9,23 @@ export async function GET(req: Request) {
     const profile = currentProfile();
     const { searchParams } = new URL(req.url);
     const cursor = searchParams.get("cursor");
-    const channelId = searchParams.get("channelId");
+    const conversationId = searchParams.get("conversationId");
 
     if (!profile) return new NextResponse("User Unauthorized", { status: 401 });
-    if (!channelId)
-      return new NextResponse("Missing Channel Id", { status: 400 });
+    if (!conversationId)
+      return new NextResponse("Missing Conversation Id", { status: 400 });
 
-    let messages: Message[] = [];
+    let messages: DirectMessage[] = [];
 
     if (cursor) {
-      messages = await db.message.findMany({
+      messages = await db.directMessage.findMany({
         take: 10,
         skip: 1,
         cursor: {
           id: cursor,
         },
         where: {
-          channelId,
+          conversationId,
         },
         include: {
           member: {
@@ -39,10 +39,10 @@ export async function GET(req: Request) {
         },
       });
     } else {
-      messages = await db.message.findMany({
+      messages = await db.directMessage.findMany({
         take: 10,
         where: {
-          channelId,
+          conversationId,
         },
         include: {
           member: {
@@ -68,7 +68,7 @@ export async function GET(req: Request) {
       nextCursor,
     });
   } catch (error) {
-    console.log("message-get", error);
+    console.log("direct-messages-get", error);
     return new NextResponse(`${error}`, { status: 500 });
   }
 }
